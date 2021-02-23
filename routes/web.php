@@ -29,6 +29,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('register', 'AuthController@register');
      // Matches "/api/login
     $router->post('login', 'AuthController@login');
+    $router->post('login/kasirs', 'AuthController@loginKasir');
 
     $router->group(['middleware' => 'auth.jwt'], function () use ($router) {
 
@@ -38,7 +39,6 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->put('users/update/{id}', 'AuthController@update');
         
         $router->post('register/kasirs', 'AuthController@registerKasir');
-        $router->post('login/kasirs', 'AuthController@loginKasir');
 
         $router->get('suppliers', 'SupplierController@index');
         $router->post('/suppliers/create', 'SupplierController@store');
@@ -49,6 +49,16 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->post('/kategoris/create', 'KategoriController@store');
         $router->put('/kategoris/update/{id}', 'KategoriController@update');
         $router->delete('/kategoris/delete/{id}', 'KategoriController@delete');
+
+        $router->get('barangs', 'BarangController@index');
+        $router->post('/barangs/create', 'BarangController@store');
+        $router->put('/barangs/update/{id}', 'BarangController@update');
+        $router->delete('/barangs/delete/{id}', 'BarangController@delete');
+
+        $router->get('expenses', 'ExpenseController@index');
+        $router->post('/expenses/create', 'ExpenseController@store');
+        $router->put('/expenses/update/{id}', 'ExpenseController@update');
+        $router->delete('/expenses/delete/{id}', 'ExpenseController@delete');
     });
 });
 
