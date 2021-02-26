@@ -27,6 +27,7 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix' => 'api'], function () use ($router) {
     // Matches "/api/register
     $router->post('register', 'AuthController@register');
+    $router->post('register/kasirs', 'AuthController@registerKasir');
      // Matches "/api/login
     $router->post('login', 'AuthController@login');
     $router->post('login/kasirs', 'AuthController@loginKasir');
@@ -38,7 +39,6 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->get('users/Role/{id}', 'AuthController@getRoleUser'); //---->role ada  2
         $router->put('users/update/{id}', 'AuthController@update');
         
-        $router->post('register/kasirs', 'AuthController@registerKasir');
 
         $router->get('suppliers', 'SupplierController@index');
         $router->post('/suppliers/create', 'SupplierController@store');
@@ -64,6 +64,11 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->post('/transaksis/create', 'TransaksiController@store');
         $router->put('/transaksis/update/{id}', 'TransaksiController@update');
         $router->delete('/transaksis/delete/{id}', 'TransaksiController@delete');
+
+        $router->get('buys', 'BuyController@index');
+        $router->post('/buys/create', 'BuyController@store');
+        $router->put('/buys/update/{id}', 'BuyController@update');
+        $router->delete('/buys/delete/{id}', 'BuyController@delete');
     });
 });
 

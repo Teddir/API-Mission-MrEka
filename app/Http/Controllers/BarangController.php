@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Barang;
+use App\Models\Buy;
 use App\Models\Kategori;
 
 class BarangController extends Controller
@@ -54,22 +55,27 @@ class BarangController extends Controller
     $this->validate($request, [
       'name' => 'required|string|max:255',
       'uid' => 'required',
-      'hb' => 'required',
+      // 'hb' => 'required',
       // 'hj' => 'required',
+      // 'stok' => 'required',
       'merek' => 'required',
-      'stok' => 'required',
       'kategori' => 'required',
       'diskon' => 'required'
     ]);
 
     $barang = new Barang;
-    $barang->name = $request->name;
+
+    $name_barang = $request->name;
+    $nameBarang = Buy::where('name', $name_barang)->first();
+    $barang->name = $nameBarang->name;
+    $barang->hb = $nameBarang->tbayar / $nameBarang->tbarang;
+    $barang->stok = $nameBarang->tbarang;
+
     $barang->uid = $request->uid;
-    $barang->hb = $request->hb;
-    $barang->hj = $request->hj;
+    $barang->hj = $barang->hb * 10;
     $barang->merek = $request->merek;
-    $barang->stok = $request->stok;
     $barang->diskon = $request->diskon;
+
     $listKategori = $request->kategori;
     $kategori = Kategori::where('id', $listKategori)->first();
     $barang->kategori = $kategori;

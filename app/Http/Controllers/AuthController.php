@@ -46,7 +46,7 @@ class AuthController extends Controller
             'name' => $request->get('name'),
             'email' => $request->get('email'),
             'password' => Hash::make($request->get('password')),
-            'phone_number' => $request->get('phone_number')
+            'phone_number' => $request->get('phone_number'),
         ]);
 
         $credentials = $request->only(['email', 'password']);
@@ -166,32 +166,48 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|unique:users|max:255',
             'email' => 'required|unique:users|max:255',
-            'password' => 'required|numeric|min:6',
+            'pin_kasir' => 'required|numeric|min:6',
             'umur' => 'required|numeric|min:2',
             'alamat' => 'required|string|max:225',
-            'role' => 'required'
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors()->toJson(), 400);
         }
 
-        $user = User::create([
-            'name' => $request->get('name'),
-            'email' => $request->get('email'),
-            'password' => Hash::make($request->get('password')),
-            'umur' => $request->get('umur'),
-            'alamat' => $request->get('alamat'),
-            'role' => $request->get('role'),
-        ]);
-        
-        $credentials = $request->only(['email', 'password']);
+        // $user = User::create([
+        //     'name' => $request->get('name'),
+        //     'email' => $request->get('email'),
+        //     'pin_kasir' => Hash::make($request->get('pin_kasir')),
+        //     'umur' => $request->get('umur'),
+        //     'alamat' => $request->get('alamat'),
+        //     'role' => 2,
+        // ]);
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->pin_kasir = $request->pin_kasir;
+        $user->umur = $request->umur;
+        $user->alamat = $request->alamat;
+        $user->role = 2;
 
-        if (!$token = Auth::attempt($credentials)) {
-            return response()->json(['message' => 'Unauthorized'], 401);
-        }
-        $token1 = $this->respondWithToken($token);
-        return response()->json(compact('user', 'token1'), 201);
+        try {
+            $user->save();
+            //code...
+            return response()->json([
+                'status' => 'Succes',
+                'message' => 'Berhasil mendaftarkan kasir',
+                'data' => $user,
+            ], 201);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json([
+                'status' => 'Error',
+                'message' => $th,
+                'data' => null,
+            ], 201);
+
+        }    
     }
 
     public function loginKasir(Request $request)

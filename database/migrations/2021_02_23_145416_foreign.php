@@ -20,6 +20,7 @@ class Foreign extends Migration
 
         Schema::table('barangs', function (Blueprint $table) {
             $table->foreignId('kategori_id')->nullable()->constrained('kategoris')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('buy_id')->nullable()->constrained('buys')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::table('transaksis', function (Blueprint $table) {
@@ -29,9 +30,9 @@ class Foreign extends Migration
         });
 
         Schema::table('buys', function (Blueprint $table) {
-            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('barang_id')->nullable()->constrained('barangs')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('supplier_id')->nullable()->constrained('suppliers')->onDelete('cascade')->onUpdate('cascade');
+            // $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade')->onUpdate('cascade');
+            // $table->foreignId('barang_id')->nullable()->constrained('barangs')->onDelete('cascade')->onUpdate('cascade');
         });
 
     }
