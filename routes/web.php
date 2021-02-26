@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
@@ -59,6 +59,11 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->post('/expenses/create', 'ExpenseController@store');
         $router->put('/expenses/update/{id}', 'ExpenseController@update');
         $router->delete('/expenses/delete/{id}', 'ExpenseController@delete');
+
+        $router->get('transaksis', 'TransaksiController@index');
+        $router->post('/transaksis/create', 'TransaksiController@store');
+        $router->put('/transaksis/update/{id}', 'TransaksiController@update');
+        $router->delete('/transaksis/delete/{id}', 'TransaksiController@delete');
     });
 });
 

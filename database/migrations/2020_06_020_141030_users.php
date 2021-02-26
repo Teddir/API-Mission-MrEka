@@ -17,7 +17,8 @@ class Users extends Migration{
             $table->timestamp('email_verified_at')->nullable();
             $table->string('phone_number')->unique()->nullable();
             $table->string('password');
-            $table->string('role')->comment('1 = staff, 2 = kasir')->default(1);
+            $table->string('saldo')->nullable();
+            $table->string('role')->comment('1 = staff, 2 = kasir, 3 = member')->default(1);
             $table->timestamps();
         });
     }
