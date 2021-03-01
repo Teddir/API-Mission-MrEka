@@ -188,6 +188,7 @@ class AuthController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->pin_kasir = $request->pin_kasir;
+        $user->password = Hash::make($user->pin_kasir);
         $user->umur = $request->umur;
         $user->alamat = $request->alamat;
         $user->role = 2;
@@ -215,9 +216,20 @@ class AuthController extends Controller
         //validate incoming request
         $this->validate($request, [
             'email' => 'required|string',
-            'password' => 'required|numeric',
+            // 'password' => 'required|numeric',
+            'pin_kasir' => 'required'
         ]);
-
+        $data = $request->email;
+        $user = User::where('email', $data)->first();
+        if ($user->role != 2) {
+            # code...
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Maaf user tidak terdaftar',
+                'data' => null,
+            ], 400);
+        }
+        $request->password = $request->pin_kasir;
         $credentials = $request->only(['email', 'password']);
 
         if (!$token = Auth::attempt($credentials)) {
