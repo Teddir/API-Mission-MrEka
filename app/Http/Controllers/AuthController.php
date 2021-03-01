@@ -55,7 +55,7 @@ class AuthController extends Controller
             return response()->json(['message' => 'Unauthorized'], 401);
         }
         $token1 = $this->respondWithToken($token);
-        return response()->json(compact('user', 'token1'), 201);
+        return response()->json(compact('user', 'token1'));
     }
 
     public function update(Request $request, $id)
@@ -206,8 +206,7 @@ class AuthController extends Controller
                 'message' => $th,
                 'data' => null,
             ], 201);
-
-        }    
+        }
     }
 
     public function loginKasir(Request $request)
@@ -218,7 +217,7 @@ class AuthController extends Controller
             'password' => 'required|numeric',
         ]);
 
-        $credentials = $request->only(['email','password']);
+        $credentials = $request->only(['email', 'password']);
 
         if (!$token = Auth::attempt($credentials)) {
             return response()->json(['message' => 'Unauthorized'], 401);
