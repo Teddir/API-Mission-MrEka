@@ -35,8 +35,8 @@
         $router->get('users/all', 'AuthController@getAllUser');
         $router->group(['middleware' => 'auth.jwt'], function () use ($router) {
 
-            $router->get('users/One/{id}', 'AuthController@getOneUser');
-            $router->get('users/Role/{id}', 'AuthController@getRoleUser'); //---->role ada  2
+            $router->get('users/one', 'AuthController@getOneUser');
+            $router->get('users/role/{id}', 'AuthController@getRoleUser'); //---->role ada  2
             $router->put('users/update/{id}', 'AuthController@update');
 
 
