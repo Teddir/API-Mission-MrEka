@@ -24,8 +24,9 @@ class AuthController extends Controller
         if (!$token = Auth::attempt($credentials)) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
-
-        return $this->respondWithToken($token);
+        $user = User::where('email', $request->email)->first();
+        $token1 =  $this->respondWithToken($token);
+        return response()->json(compact('user', 'token1'));
     }
 
     public function register(Request $request)
