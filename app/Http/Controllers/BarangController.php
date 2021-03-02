@@ -70,6 +70,7 @@ class BarangController extends Controller
     $barang->name = $nameBarang->name;
     $barang->hb = $nameBarang->tbayar / $nameBarang->tbarang;
     $barang->stok = $nameBarang->tbarang;
+    $barang->avatar = $request->avatar;
 
     $barang->uid = $request->uid;
     $barang->hj = $barang->hb * 10;

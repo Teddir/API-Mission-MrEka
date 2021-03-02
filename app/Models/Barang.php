@@ -9,7 +9,7 @@ class Barang extends Model
 {
     //
     protected $fillable = [
-        'name', 'uid', 'hb', 'hj', 'kategori', 'merek', 'stok', 'diskon'
+        'name', 'uid', 'hb', 'hj', 'kategori', 'merek', 'stok', 'diskon', 'avatar'
     ];
 
     public function getCreatedAtAttribute()
@@ -17,5 +17,4 @@ class Barang extends Model
         return Carbon::parse($this->attributes['created_at'])
             ->translatedFormat('1, d F Y');
     }
-
 }

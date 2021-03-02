@@ -4,11 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class barangs extends Migration{
-    
-    public function up(){
+class barangs extends Migration
+{
+
+    public function up()
+    {
         Schema::create('barangs', function (Blueprint $table) {
             $table->id();
+            $table->string('avatar')->nullable();
             $table->string('name');
             $table->string('uid')->comment('kode produk / barcode')->unique();
             $table->string('hb')->comment('harga beli');
@@ -21,7 +24,8 @@ class barangs extends Migration{
         });
     }
 
-    public function down(){
+    public function down()
+    {
         Schema::dropIfExists('barangs');
     }
 }
