@@ -67,7 +67,7 @@ class BarangController extends Controller
 
     $name_barang = $request->name;
     $nameBarang = Buy::where('barang', $name_barang)->first();
-    $barang->name = $nameBarang->name;
+    $barang->name = $nameBarang->barang;
     $barang->hb = $nameBarang->tbayar / $nameBarang->tbarang;
     $barang->stok = $nameBarang->tbarang;
     $barang->buy_id = $nameBarang->id;
