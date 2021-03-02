@@ -70,6 +70,7 @@ class BarangController extends Controller
     $barang->name = $nameBarang->name;
     $barang->hb = $nameBarang->tbayar / $nameBarang->tbarang;
     $barang->stok = $nameBarang->tbarang;
+    $barang->buy_id = $nameBarang->id;
     $avatar = $request->file('avatar');
     if ($avatar) {
       # code...
