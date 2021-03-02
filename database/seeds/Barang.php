@@ -49,7 +49,7 @@ class Barang extends Seeder
             'merek' => 'IndoMie',
             'stok' => '500',
             'diskon' => '2%',
-
+            'avatar' => 'https://www.google.com/imgres?imgurl=https%3A%2F%2Fecs7.tokopedia.net%2Fimg%2Fcache%2F700%2Fproduct-1%2F2020%2F3%2F6%2F7253722%2F7253722_2400de25-5072-4e35-b79f-4e913c0d96da_500_500.jpg&imgrefurl=https%3A%2F%2Fwww.tokopedia.com%2Ftokosembakoervi%2Fsarimi-isi-2-rasa-ayam-kecap&tbnid=h5rzX51xZkyO-M&vet=12ahUKEwiIgKSw4ZDvAhVFxnMBHcZdC8YQMygDegUIARC3AQ..i&docid=LJcSwIo0gA41bM&w=700&h=700&q=sarimi%202&ved=2ahUKEwiIgKSw4ZDvAhVFxnMBHcZdC8YQMygDegUIARC3AQ',
         ]);
     }
 }
