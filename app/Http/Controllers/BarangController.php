@@ -60,7 +60,8 @@ class BarangController extends Controller
       // 'stok' => 'required',
       'merek' => 'required',
       'kategori' => 'required',
-      'diskon' => 'required'
+      'diskon' => 'required',
+      'avatar' => 'required'
     ]);
 
     $barang = new Barang;
