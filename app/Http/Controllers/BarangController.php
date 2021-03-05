@@ -73,28 +73,43 @@ class BarangController extends Controller
     $barang->stok = $nameBarang->tbarang;
     $barang->buy_id = $nameBarang->id;
     $avatar = $request->file('avatar');
-    if ($avatar) {
-      # code...
-      $file = base64_encode(file_get_contents($avatar));
+    $file = base64_encode(file_get_contents($avatar));
+    $client = new \GuzzleHttp\Client();
+    $response = $client->request('POST', 'https://freeimage.host/api/1/upload', [
+      'form_params' => [
+        'key' => '6d207e02198a847aa98d0a2a901485a5',
+        'action' => 'upload',
+        'source' => $file,
+        'format' => 'json'
+      ]
+    ]);
 
-      $client = new \GuzzleHttp\Client();
-      $response = $client->request('POST', 'https://freeimage.host/api/1/upload', [
-        'form_params' => [
-          'key' => '6d207e02198a847aa98d0a2a901485a5',
-          'action' => 'upload',
-          'source' => $file,
-          'format' => 'json'
-        ]
-      ]);
+    $data = $response->getBody()->getContents();
+    $data = json_decode($data);
+    $image = $data->image->url;
 
-      $data = $response->getBody()->getContents();
-      $data = json_decode($data);
-      $image = $data->image->url;
+    $barang->avatar = $image;
+    // if ($avatar) {
+    //   # code...
+    //   $file = base64_encode(file_get_contents($avatar));
 
-      $barang->avatar = $image;
-    } else
-      $avatar = $request->avatar;
+    //   $client = new \GuzzleHttp\Client();
+    //   $response = $client->request('POST', 'https://freeimage.host/api/1/upload', [
+    //     'form_params' => [
+    //       'key' => '6d207e02198a847aa98d0a2a901485a5',
+    //       'action' => 'upload',
+    //       'source' => $file,
+    //       'format' => 'json'
+    //     ]
+    //   ]);
 
+    //   $data = $response->getBody()->getContents();
+    //   $data = json_decode($data);
+    //   $image = $data->image->url;
+
+    //   $barang->avatar = $image;
+    // } else
+    //   $avatar = $request->avatar;
     $barang->uid = $request->uid;
     $barang->hj = $barang->hb * 10;
     $barang->merek = $request->merek;
