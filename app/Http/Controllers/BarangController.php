@@ -67,11 +67,12 @@ class BarangController extends Controller
     $barang = new Barang;
 
     $name_barang = $request->name;
-    $nameBarang = Buy::where('barang', $name_barang)->first();
+    $nameBarang = Buy::where('name', $name_barang)->first();
+    $barang->buy_id = $nameBarang->id;
     $barang->name = $nameBarang->barang;
     $barang->hb = $nameBarang->tbayar / $nameBarang->tbarang;
     $barang->stok = $nameBarang->tbarang;
-    $barang->buy_id = $nameBarang->id;
+
     $avatar = $request->file('avatar');
     $file = base64_encode(file_get_contents($avatar));
     $client = new \GuzzleHttp\Client();
@@ -87,29 +88,8 @@ class BarangController extends Controller
     $data = $response->getBody()->getContents();
     $data = json_decode($data);
     $image = $data->image->url;
-
     $barang->avatar = $image;
-    // if ($avatar) {
-    //   # code...
-    //   $file = base64_encode(file_get_contents($avatar));
 
-    //   $client = new \GuzzleHttp\Client();
-    //   $response = $client->request('POST', 'https://freeimage.host/api/1/upload', [
-    //     'form_params' => [
-    //       'key' => '6d207e02198a847aa98d0a2a901485a5',
-    //       'action' => 'upload',
-    //       'source' => $file,
-    //       'format' => 'json'
-    //     ]
-    //   ]);
-
-    //   $data = $response->getBody()->getContents();
-    //   $data = json_decode($data);
-    //   $image = $data->image->url;
-
-    //   $barang->avatar = $image;
-    // } else
-    //   $avatar = $request->avatar;
     $barang->uid = $request->uid;
     $barang->hj = $barang->hb * 10;
     $barang->merek = $request->merek;
@@ -117,7 +97,8 @@ class BarangController extends Controller
 
     $listKategori = $request->kategori;
     $kategori = Kategori::where('id', $listKategori)->first();
-    $barang->kategori = $kategori;
+    $barang->kategori = $kategori->name;
+    $barang->kategori_id = $kategori->id;
 
     try {
       $barang->save();

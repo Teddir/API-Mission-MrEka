@@ -13,13 +13,13 @@ class barangs extends Migration
             $table->id();
             $table->string('avatar')->nullable();
             $table->string('name');
-            $table->string('uid')->comment('kode produk / barcode')->unique();
-            $table->string('hb')->comment('harga beli');
-            $table->string('hj')->comment('harga jual')->nullable();
-            $table->string('kategori');
-            $table->string('merek');
-            $table->string('stok');
-            $table->string('diskon');
+            $table->string('uid')->comment('kode produk / barcode')->unique()->nullable();
+            $table->string('hb')->comment('harga beli')->nullable();
+            $table->string('hj')->comment('harga jual');
+            $table->string('kategori')->unique()->nullable();
+            $table->string('merek')->nullable();
+            $table->string('stok')->default(0);
+            $table->string('diskon')->default(0);
             $table->timestamps();
         });
     }
