@@ -54,14 +54,14 @@ class BarangController extends Controller
   {
     $this->validate($request, [
       'name' => 'required|string|max:255',
-      'uid' => 'required',
+      // 'uid' => 'required',
       // 'hb' => 'required',
-      // 'hj' => 'required',
+      'hj' => 'required',
       // 'stok' => 'required',
-      'merek' => 'required',
-      'kategori' => 'required',
-      'diskon' => 'required',
-      'avatar' => 'required'
+      // 'merek' => 'required',
+      // 'kategori' => 'required',
+      // 'diskon' => 'required',
+      // 'avatar' => 'required'
     ]);
 
     $barang = new Barang;
