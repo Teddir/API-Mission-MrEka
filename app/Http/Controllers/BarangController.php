@@ -73,22 +73,6 @@ class BarangController extends Controller
     $barang->hb = $nameBarang->tbayar / $nameBarang->tbarang;
     $barang->stok = $nameBarang->tbarang;
 
-    $avatar = $request->file('avatar');
-    $file = base64_encode(file_get_contents($avatar));
-    $client = new \GuzzleHttp\Client();
-    $response = $client->request('POST', 'https://freeimage.host/api/1/upload', [
-      'form_params' => [
-        'key' => '6d207e02198a847aa98d0a2a901485a5',
-        'action' => 'upload',
-        'source' => $file,
-        'format' => 'json'
-      ]
-    ]);
-
-    $data = $response->getBody()->getContents();
-    $data = json_decode($data);
-    $image = $data->image->url;
-    $barang->avatar = $image;
 
     $barang->uid = $request->uid;
     $barang->hj = $barang->hb * 10;
@@ -97,9 +81,33 @@ class BarangController extends Controller
 
     $listKategori = $request->kategori;
     $kategori = Kategori::where('id', $listKategori)->first();
-    $barang->kategori = $kategori->name;
-    $barang->kategori_id = $kategori->id;
+    if ($kategori) {
+      # code...
+      $barang->kategori = $kategori->name;
+      $barang->kategori_id = $kategori->id;
+    }
 
+    $avatar = $request->file('avatar');
+    if ($avatar) {
+      # code...
+      $avatar = $request->file('avatar');
+      $file = base64_encode(file_get_contents($avatar));
+      $client = new \GuzzleHttp\Client();
+      $response = $client->request('POST', 'https://freeimage.host/api/1/upload', [
+        'form_params' => [
+          'key' => '6d207e02198a847aa98d0a2a901485a5',
+          'action' => 'upload',
+          'source' => $file,
+          'format' => 'json'
+        ]
+      ]);
+
+      $data = $response->getBody()->getContents();
+      $data = json_decode($data);
+      $image = $data->image->url;
+      $barang->avatar = $image;
+    } else
+      $barang->avatar = 'https://via.placeholder.com/150';
     try {
       $barang->save();
       //code...

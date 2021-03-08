@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Buy extends Model
 {
     //
-    
+
     protected $fillable = [
-        'supplier', 'barang', 'tbarang', 'tbayar'
+        'supplier', 'barang', 'harga_barang', 'tbarang', 'tbayar'
     ];
 
     protected $guarded = [];
@@ -20,5 +20,4 @@ class Buy extends Model
         return Carbon::parse($this->attributes['created_at'])
             ->translatedFormat('1, d F Y');
     }
-
 }
