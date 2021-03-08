@@ -15,5 +15,6 @@ class DatabaseSeeder extends Seeder
         $this->call('KategorisSeeder');
         $this->call('SuppliersSeeder');
         $this->call('Barang');
+        $this->call('Buy');
     }
 }
