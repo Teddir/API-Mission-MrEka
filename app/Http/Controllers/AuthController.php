@@ -48,6 +48,7 @@ class AuthController extends Controller
             'email' => $request->get('email'),
             'password' => Hash::make($request->get('password')),
             'phone_number' => $request->get('phone_number'),
+            'avatar' => 'https://via.placeholder.com/150'
         ]);
 
         $credentials = $request->only(['email', 'password']);

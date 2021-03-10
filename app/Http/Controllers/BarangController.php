@@ -67,7 +67,7 @@ class BarangController extends Controller
     $barang = new Barang;
 
     $name_barang = $request->name;
-    $nameBarang = Buy::where('barang', $name_barang)->first();
+    $nameBarang = Buy::where('id', $name_barang)->first();
     $barang->buy_id = $nameBarang->id;
     $barang->name = $nameBarang->barang;
     $barang->hb = $nameBarang->tbayar / $nameBarang->tbarang;
@@ -75,14 +75,14 @@ class BarangController extends Controller
 
 
     $barang->uid = $request->uid;
-    $barang->hj = $barang->hb * 10;
+    $barang->hj = $request->hj;
     $barang->merek = $request->merek;
     $barang->diskon = $request->diskon;
 
     $listKategori = $request->kategori;
-    $kategori = Kategori::where('id', $listKategori)->first();
-    if ($kategori) {
+    if ($listKategori) {
       # code...
+      $kategori = Kategori::where('id', $listKategori)->first();
       $barang->kategori = $kategori->name;
       $barang->kategori_id = $kategori->id;
     }
@@ -90,7 +90,6 @@ class BarangController extends Controller
     $avatar = $request->file('avatar');
     if ($avatar) {
       # code...
-      $avatar = $request->file('avatar');
       $file = base64_encode(file_get_contents($avatar));
       $client = new \GuzzleHttp\Client();
       $response = $client->request('POST', 'https://freeimage.host/api/1/upload', [

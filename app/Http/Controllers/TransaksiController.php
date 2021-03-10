@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Hash;
@@ -7,9 +8,10 @@ use App\Models\Transaksi;
 use App\User;
 use App\Models\Barang;
 
-class TransaksiController extends Controller{
+class TransaksiController extends Controller
+{
 
-    public function index(Request $request)
+  public function index(Request $request)
   {
     try {
       $transaksi = Transaksi::get();
@@ -52,75 +54,77 @@ class TransaksiController extends Controller{
   public function store(Request $request)
   {
     $this->validate($request, [
-        // 'barang' => 'required|string|max:255',
-        'jb' => 'required|numeric|min:1',
-        // 'ht' => 'required|numeric|min:1',
-        'pay' => 'required|numeric|min:1',
-        // 'change' => 'required|numeric|min:1',
-        // 'kode_member' => 'required|numeric|min:1',
-        'pin_kasir' => 'required|string|min:1',
-        // 'diskon' => 'required|numeric|min:1',
+      // 'barang' => 'required|string|max:255',
+      'jb' => 'required|numeric|min:1',
+      // 'ht' => 'required|numeric|min:1',
+      'pay' => 'required|numeric|min:1',
+      // 'change' => 'required|numeric|min:1',
+      // 'kode_member' => 'required|numeric|min:1',
+      // 'pin_kasir' => 'required|string|min:1',
+      // 'diskon' => 'required|numeric|min:1',
+      // 'name_barang' => 'required',
     ]);
 
     $transaksi = new Transaksi();
 
     $name = $request->name_barang;
     if ($name) {
-        $nameBarang = Barang::where('name', $name)->first();
-        $transaksi->barang = $nameBarang->name;
+      $nameBarang = Barang::where('name', $name)->first();
+      $transaksi->barang = $nameBarang->name;
 
-        $jumlahBarang = $request->jb;
-        $bayar = $request->pay;
-        $totalHarga = $nameBarang->hj * $jumlahBarang ;
-        if ($bayar < $totalHarga) {
-            # code...
-            return response()->json([
-                'status' => 'Failed',
-                'message' => 'Maaf uang anda kurang',
-                'total_harga' => $totalHarga,
-            ]);
-        } else {
-            # code...
-            $transaksi->jb = $jumlahBarang;
-            $transaksi->pay = $bayar;
-            $transaksi->diskon = $nameBarang->diskon;
-            $transaksi->barang_id = $nameBarang->id;    
-        }
+      $jumlahBarang = $request->jb;
+      $bayar = $request->pay;
+      $totalHarga = $nameBarang->hj * $jumlahBarang;
+      if ($bayar < $totalHarga) {
+        # code...
+        return response()->json([
+          'status' => 'Failed',
+          'message' => 'Maaf uang anda kurang',
+          'total_harga' => $totalHarga,
+        ]);
+      } else {
+        # code...
+        $transaksi->jb = $jumlahBarang;
+        $transaksi->pay = $bayar;
+        $transaksi->diskon = $nameBarang->diskon;
+        $transaksi->barang_id = $nameBarang->id;
+      }
     }
 
     $barcode = $request->barcode_barang;
     if ($barcode) {
-        $barcodeBarang = Barang::where('uid', $barcode)->first();
-        $transaksi->barang = $barcodeBarang->name;
+      $barcodeBarang = Barang::where('uid', $barcode)->first();
+      $transaksi->barang = $barcodeBarang->name;
 
-        $jumlahBarang = $request->jb;
-        $bayar = $request->pay;
-        $totalHarga = $barcodeBarang->hj * $jumlahBarang ;
-        if ($bayar < $totalHarga) {
-            # code...
-            return response()->json([
-                'status' => 'Failed',
-                'message' => 'Maaf uang anda kurang',
-                'total_harga' => $totalHarga,
-            ]);
-        } else {
-            # code...
-            $transaksi->jb = $jumlahBarang;
-            $transaksi->pay = $bayar;
-            $transaksi->diskon = $barcodeBarang->diskon;
-            $transaksi->barang_id = $barcodeBarang->id;    
-        }
+      $jumlahBarang = $request->jb;
+      $bayar = $request->pay;
+      $totalHarga = $barcodeBarang->hj * $jumlahBarang;
+      if ($bayar < $totalHarga) {
+        # code...
+        return response()->json([
+          'status' => 'Failed',
+          'message' => 'Maaf uang anda kurang',
+          'total_harga' => $totalHarga,
+        ]);
+      } else {
+        # code...
+        $transaksi->jb = $jumlahBarang;
+        $transaksi->pay = $bayar;
+        $transaksi->diskon = $barcodeBarang->diskon;
+        $transaksi->barang_id = $barcodeBarang->id;
+      }
     }
+
 
     $transaksi->ht = $transaksi->pay / $transaksi->diskon;
     $transaksi->change = $transaksi->pay - $transaksi->ht;
 
     $kode = $request->kode_member;
     if ($kode) {
-        # code...
-        $kodeMember  = User::where('password', $kode)->first();
-        $transaksi->kode_member = $kodeMember;
-        $transaksi->member_id = $kodeMember->id;
+      # code...
+      $kodeMember  = User::where('password', $kode)->first();
+      $transaksi->kode_member = $kodeMember;
+      $transaksi->member_id = $kodeMember->id;
     }
 
     $pinKasir = User::where('id', auth()->user()->id)->first();
@@ -176,9 +180,7 @@ class TransaksiController extends Controller{
 
   public function update(Request $request, $id)
   {
-    $this->validate($request,[
-      
-    ]);
+    $this->validate($request, []);
 
     $transaksi = Transaksi::find($id);
     $dataRequest = $request->all();
@@ -199,9 +201,9 @@ class TransaksiController extends Controller{
         'Message' => $th,
         'data' => Null, 402,
       ]);
-    }  
+    }
   }
-  
+
   public function delete($id)
   {
     try {
