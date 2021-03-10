@@ -88,6 +88,19 @@ class TransaksiController extends Controller
         $transaksi->pay = $bayar;
         $transaksi->diskon = $nameBarang->diskon;
         $transaksi->barang_id = $nameBarang->id;
+
+        if ($nameBarang->stok < $jumlahBarang) {
+          # code...
+          return response()->json([
+            'status' => 'Failed',
+            'message' => 'Maaf stok kami tidak cukup',
+            'Sisa_Stok' => $nameBarang->stok,
+          ]);
+        } else {
+          $updateStokBarang = $nameBarang->stok - $jumlahBarang;
+          $nameBarang->stok = $updateStokBarang;
+          $nameBarang->update();
+        };
       }
     }
 
@@ -112,6 +125,19 @@ class TransaksiController extends Controller
         $transaksi->pay = $bayar;
         $transaksi->diskon = $barcodeBarang->diskon;
         $transaksi->barang_id = $barcodeBarang->id;
+
+        if ($barcodeBarang->stok < $jumlahBarang) {
+          # code...
+          return response()->json([
+            'status' => 'Failed',
+            'message' => 'Maaf stok kami tidak cukup',
+            'Sisa_Stok' => $barcodeBarang->stok,
+          ]);
+        } else {
+          $updateStokBarang = $barcodeBarang->stok - $jumlahBarang;
+          $barcodeBarang->stok = $updateStokBarang;
+          $barcodeBarang->update();
+        };
       }
     }
 
@@ -128,15 +154,6 @@ class TransaksiController extends Controller
     }
 
     $pinKasir = User::where('id', auth()->user()->id)->first();
-    // $pin = Hash::make($request->pin_kasir);
-    // $pinNew = Hash::check($pin, $pinKasir->password);
-    // if (!$pinNew) {
-    //     # code...
-    //     return response()->json([
-    //         'status' => 'Failed',
-    //         'message' => 'Pin Kasir salah'
-    //     ]);
-    // }
     $transaksi->pin_kasir = $pinKasir->password;
     $transaksi->kasir_id = $pinKasir->id;
 
