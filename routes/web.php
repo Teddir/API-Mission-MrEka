@@ -69,5 +69,10 @@
             $router->post('/buys/create', 'BuyController@store');
             $router->put('/buys/update/{id}', 'BuyController@update');
             $router->delete('/buys/delete/{id}', 'BuyController@delete');
+
+            $router->get('carts', 'CartController@index');
+            $router->post('/carts/create', 'CartController@store');
+            $router->put('/carts/update/{id}', 'CartController@update');
+            $router->delete('/carts/delete/{id}', 'CartController@delete');
         });
     });

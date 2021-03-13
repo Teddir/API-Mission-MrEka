@@ -35,6 +35,9 @@ class Foreign extends Migration
             // $table->foreignId('barang_id')->nullable()->constrained('barangs')->onDelete('cascade')->onUpdate('cascade');
         });
 
+        Schema::table('carts', function (Blueprint $table) {
+            $table->foreignId('barang_id')->nullable()->constrained('barangs')->onDelete('cascade')->onUpdate('cascade');
+        });
     }
 
     /**

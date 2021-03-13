@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
-class Barang extends Model
+class Cart extends Model
 {
-    //
+    protected $table = "carts";
+
     protected $fillable = [
-        'name', 'uid', 'hb', 'hj', 'kategori', 'merek', 'stok', 'diskon', 'avatar'
+        'id', 'barang', 'barcode', 'qty', 'subtotal', 'barang_id',
     ];
 
     public function getCreatedAtAttribute()
@@ -18,8 +19,10 @@ class Barang extends Model
             ->translatedFormat('1, d F Y');
     }
 
+    // public $timestamps = false;
+
     public function barangs()
     {
-        return $this->hasMany(Barang::class, 'id');
+        return $this->hasMany(Barang::class, 'id', 'barang_id');
     }
 }
