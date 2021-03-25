@@ -10,6 +10,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
+
 class User extends Model implements AuthenticatableContract, AuthorizableContract, JWTSubject
 {
     use Authenticatable, Authorizable;
@@ -19,9 +20,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      *
      * @var array
      */
-    protected $guarded = [
-        'id',
+    protected $fillable = [
+        'username', 'email', 'password', 'phone_number', 'avatar'
     ];
+
+
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -32,10 +35,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'password',
     ];
 
+
     /**
-         * Get the identifier that will be stored in the subject claim of the JWT.
-         *
-         * @return mixed
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
      */
     public function getJWTIdentifier()
     {
@@ -50,5 +54,17 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function getCreatedAtFormattedAttribute()
+    {
+        return $this->created_at->format('H:i d, M Y');
+    }
+
+
+
+    public function getUpdatedAtFormattedAttribute()
+    {
+        return $this->updated_at->format('H:i d, M Y');
     }
 }
